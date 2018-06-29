@@ -19,7 +19,7 @@ class Mailer extends Helper.Mail {
   }
 
   formatAddresses(recipients) {
-    return recipients.map(({ email }) => new helper.Email(email))
+    return recipients.map(({ email }) => new Helper.Email(email))
   }
 
   addClickTracking() {

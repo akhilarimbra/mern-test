@@ -12,6 +12,9 @@ import App from './components/App'
 import Header from './components/Header'
 import Landing from './components/Landing'
 
+import axios from 'axios'
+window.axios = axios
+
 const Dashboard = () => <h2>Dashboard</h2>
 const SurveryNew = () => <h2>SurveryNew</h2>
 
