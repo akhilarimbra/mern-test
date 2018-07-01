@@ -12,11 +12,10 @@ import App from './components/App'
 import Header from './components/Header'
 import Landing from './components/Landing'
 import Dashboard from './components/Dashboard'
+import SurveyNew from './components/surveys/SurveyNew'
 
 import axios from 'axios'
 window.axios = axios
-
-const SurveryNew = () => <h2>SurveryNew</h2>
 
 const NotFound = () => {
   return (
@@ -45,7 +44,7 @@ ReactDOM.render(
             <Switch>
               <Route path="/" component={Landing} exact />
               <Route path="/surveys" component={Dashboard} exact />
-              <Route path="/surveys/new" component={SurveryNew} exact />
+              <Route path="/surveys/new" component={SurveyNew} exact />
               <Route path="/" component={NotFound} />
             </Switch>
           </div>
