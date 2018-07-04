@@ -34,13 +34,12 @@ module.exports = app => {
     }
   })
 
-  app.get('/api/surveys/thanks', (req, res) => {
+  app.get('/api/surveys/:id/:choice', (req, res) => {
     res.send('Thanks for voting')
   })
 
   app.post('/api/surveys/webhooks', (req, res) => {
-    const events = _
-      .chain(req.body)
+    _.chain(req.body)
       .map(({ email, url }) => {
         const pathname = new URL(url).pathname
         const p = new Path('/api/surveys/:surveyId/:choice')
@@ -57,7 +56,34 @@ module.exports = app => {
       })
       .compact()
       .uniqBy('email', 'surveyId')
+      .each(({ email, surveyId, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { 'recipients.$.responded': true },
+            lastResponded: new Date()
+          }
+        ).exec()
+      })
       .value()
-    console.log(events)
+  })
+
+  app.get('/api/surveys', requireLogin, async (req, res) => {
+    const surveys = await Survey.find(
+      { _user: req.user.id },
+      (error, surveys) => {
+        if (error) return res.send(error)
+        console.log(surveys)
+      }
+    ).select({
+      recipients: false
+    })
+    res.send(surveys)
   })
 }
