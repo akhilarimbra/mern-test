@@ -43,7 +43,7 @@ class Header extends Component {
     console.log(this.props)
     return (
       <div className="navbar-fixed">
-        <nav className="blue">
+        <nav className="green">
           <div className="nav-wrapper container">
             {this.renderBrandLogo()}
             <ul className="right hide-on-med-and-down">
